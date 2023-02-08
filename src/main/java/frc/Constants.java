@@ -1,8 +1,12 @@
+//Root Package
 package frc;
-import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 
+//Libraries
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+//** Constants class */
 public final class Constants 
 {
+    //** Swereve module constants class */
     public static class MODULE
     {
         /** Current limit on module drivers */
@@ -11,6 +15,12 @@ public final class Constants
         /** Current limit on module azimuths */
         public static final StatorCurrentLimitConfiguration AZIMUTH_CURRENT_LIMIT = new StatorCurrentLimitConfiguration(true, 20, 20, 0);
         
+        /** Drive train gear ratio */
+        public static final Double DRIVE_GEAR_RATIO = 6.75;
+
+        /** Wheel diameter  */
+        public static final Double WHEEL_DIAMETER = 0.1016;
+
         /** module drivers KP value */
         public final static Double DRIVE_KP = 0.044057;
         
@@ -34,7 +44,5 @@ public final class Constants
         
         /** module azimuths KF value */
         public final static Double AZIMUTH_KF = 0.0;
-
-
     }
 }
