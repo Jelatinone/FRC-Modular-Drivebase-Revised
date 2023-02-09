@@ -27,13 +27,21 @@ public class SwerveBase extends SubsystemBase
         ModuleGroups = new SwerveModule[DRIVETRAIN.FACE_COUNT][DRIVETRAIN.MODULES_PER_FACE];
         if(!DRIVETRAIN.AUTOMATIC_INSTANCIZATION)
         {
-            for(int i = 0; i < (DRIVETRAIN.FACE_COUNT); i++) {Modules[i] = new SwerveModule(DRIVETRAIN.DRIVE_MOTORS_INDEX_VALUES[i],DRIVETRAIN.AZIMUTH_MOTORS_INDEX_VALUES[i],DRIVETRAIN.CANCODER_INDEX_VALUES[i],DRIVETRAIN.CANCODER_OFFSET_VALUES[i]);}
-            for(int i = 0; i < ModuleGroups.length; i++) {for(int j = 0; j < ModuleGroups[i].length; j++) {ModuleGroups[i][j] = Modules[i+j];}}
+            //Fill Modules
+            for(int i = 0; i < (DRIVETRAIN.FACE_COUNT); i++) 
+                {Modules[i] = new SwerveModule(DRIVETRAIN.DRIVE_MOTORS_INDEX_VALUES[i],DRIVETRAIN.AZIMUTH_MOTORS_INDEX_VALUES[i],DRIVETRAIN.CANCODER_INDEX_VALUES[i],DRIVETRAIN.CANCODER_OFFSET_VALUES[i]);}
+            //Instance ModuleGroups
+            for(int i = 0; i < ModuleGroups.length; i++) 
+                {for(int j = 0; j < ModuleGroups[i].length; j++) {ModuleGroups[i][j] = Modules[(i+j > ModuleGroups[i].length)? (0): (i+j)];}}
         }
         else
         {
-            for(int i = 0; i < (DRIVETRAIN.FACE_COUNT * DRIVETRAIN.MODULES_PER_FACE); i++) {Modules[i] = new SwerveModule(i,(i + DRIVETRAIN.FACE_COUNT),i,0.0);}
-            for(int i = 0; i < ModuleGroups.length; i++) {for(int j = 0; j < ModuleGroups[i].length; j++) {ModuleGroups[i][j] = Modules[i+j];}}
+            //Instance Modules
+            for(int i = 0; i < (DRIVETRAIN.FACE_COUNT); i++) 
+                {Modules[i] = new SwerveModule(i,(i + DRIVETRAIN.FACE_COUNT),i,0.0);}
+            //Fill ModuleGroups
+            for(int i = 0; i < ModuleGroups.length; i++) 
+                {for(int j = 0; j < ModuleGroups[i].length; j++) {ModuleGroups[i][j] = Modules[(i+j > ModuleGroups[i].length)? (0): (i+j)];}}
         }
     }
 
@@ -64,18 +72,18 @@ public class SwerveBase extends SubsystemBase
             //Wheel Locking false(normal swerve drive)
             if(!Wheel_Locking)
             {
-                ModuleGroups[Rotational_Face][(JoystickL_X > 0)? (1): ((JoystickL_X < 0)? (0): (1))].toMagnitude(Math.pow(JoystickL_Y,2),(Math.atan((180/(JoystickR_X * 100)))));
+                ModuleGroups[Rotational_Face][(JoystickL_X > 0)? (1): ((JoystickL_X < 0)? (0): (1))].toVector(Math.pow(JoystickL_Y,2),(Math.atan((180/(JoystickR_X * 100)))));
                 for(int i = 0; i < ModuleGroups.length; i++)
                     for(int j = 0; j < ModuleGroups[i].length; j++)
                         if(!Objects.equals(ModuleGroups[i][j],ModuleGroups[Rotational_Face][(JoystickL_X > 0)? (1): (0)]))
-                            ModuleGroups[i][j].toMagnitude(Math.sqrt((JoystickL_X * JoystickL_X) + (JoystickL_Y + JoystickL_Y)), Math.atan2(JoystickL_X, JoystickL_Y));     
+                            ModuleGroups[i][j].toVector(Math.sqrt((JoystickL_X * JoystickL_X) + (JoystickL_Y + JoystickL_Y)), Math.atan2(JoystickL_X, JoystickL_Y));     
             }
             //Wheel locking true(direct swerve drive)
             else        
             {
                 for(int i = 0; i < ModuleGroups.length; i++)
                     for(int j = 0; j < ModuleGroups[i].length; j++)
-                        ModuleGroups[i][j].toMagnitude(Math.sqrt((JoystickL_X * JoystickL_X) + (JoystickL_Y + JoystickL_Y)), Math.atan2(JoystickL_X, JoystickL_Y));        
+                        ModuleGroups[i][j].toVector(Math.sqrt((JoystickL_X * JoystickL_X) + (JoystickL_Y + JoystickL_Y)), Math.atan2(JoystickL_X, JoystickL_Y));        
             }
         }
     }

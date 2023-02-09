@@ -9,9 +9,10 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.sensors.CANCoder;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Constants.MODULE;
-
 import java.util.Objects;
 
 /**
@@ -58,7 +59,7 @@ public class SwerveModule extends SubsystemBase
 
         //Class data
         Module_Count++;
-        if(Objects.equals(Module_Count,0)) {First_Module_Encoder = Module_Encoder;}
+        if(Objects.equals(Module_Number,0)) {First_Module_Encoder = Module_Encoder;}
 
         //Encoder configurations
         Module_Encoder.configFactoryDefault();
@@ -128,20 +129,13 @@ public class SwerveModule extends SubsystemBase
 
     /**
      * Bring module to given magnitude
-     * @param Velocity - Speed for Module
+     * @param Magnitude - Speed for Module
      * @param Angle - Angle for Module
      */
-    public void toMagnitude(double Velocity, double Angle)
+    public void toVector(double Magnitude, double Angle)
     {
-        //Update module data
-        Module_Real_Rotation = ((Azimuth_Motor.getSelectedSensorPosition() / 4096) * 360) % 360;
-        Module_Target_Rotation = optimizeAzimuthRotation(Angle, Module_Real_Rotation);
-        Module_Real_Velocity = 2.0*(((Driving_Motor.getSelectedSensorVelocity() / 4096) * 10) / MODULE.DRIVE_GEAR_RATIO) * Math.PI * MODULE.WHEEL_DIAMETER_METERS;
-        Module_Target_Velocity = Velocity;
-
-        //Update motors
-        Driving_Motor.set(ControlMode.Velocity, (Module_Real_Velocity*MODULE.DRIVE_GEAR_RATIO/(Math.PI * MODULE.WHEEL_DIAMETER_METERS)*4096)/10);
-        Azimuth_Motor.set(ControlMode.Position, ((Module_Target_Rotation + (Module_Real_Rotation - (Module_Real_Rotation % 360))) / 360) * 4096);
+        toAngle(Angle);
+        toVelocity(Magnitude);
     }
 
     /**
@@ -190,6 +184,10 @@ public class SwerveModule extends SubsystemBase
      */
     public Integer getModuleNumber() {return Module_Number;}
 
+    /**
+     * @return the swerve module's current position
+     */
+    public SwerveModulePosition getModulePosition() {return new SwerveModulePosition((Driving_Motor.getSelectedSensorPosition() / 2048) * MODULE.DRIVE_GEAR_RATIO, new Rotation2d(Module_Real_Rotation));}
     /**
      * @return the swerve module's current target rotation(Position)
      */
