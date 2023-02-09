@@ -2,13 +2,13 @@
 package frc.robot.subsystems;
 
 //Libraries
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.MODULE;
 
@@ -94,7 +94,7 @@ public class SwerveModule extends SubsystemBase
      * Swerve module periodic operations
      */
     @Override
-    public void periodic(){}
+    public void periodic() {}
 
     //MODULE MANIPULATION
 
@@ -102,7 +102,7 @@ public class SwerveModule extends SubsystemBase
      * Bring module to given velocity
      * @param Velocity - Speed for Module
      */
-    public void toVelocity(Double Velocity) 
+    public void toVelocity(double Velocity) 
     {
         //Update module azimuth data
         Module_Real_Velocity = 2.0*(((Driving_Motor.getSelectedSensorVelocity() / 4096) * 10) / MODULE.DRIVE_GEAR_RATIO) * Math.PI * MODULE.WHEEL_DIAMETER;
@@ -116,7 +116,7 @@ public class SwerveModule extends SubsystemBase
      * Bring module to given angle
      * @param Angle - Angle for Module
      */
-    public void toAngle(Double Angle) 
+    public void toAngle(double Angle) 
     {
         //Update module driving data
         Module_Real_Rotation = ((Azimuth_Motor.getSelectedSensorPosition() / 4096) * 360) % 360;
@@ -131,7 +131,7 @@ public class SwerveModule extends SubsystemBase
      * @param Velocity - Speed for Module
      * @param Angle - Angle for Module
      */
-    public void toMagnitude(Double Velocity, Double Angle)
+    public void toMagnitude(double Velocity, double Angle)
     {
         //Update module data
         Module_Real_Rotation = ((Azimuth_Motor.getSelectedSensorPosition() / 4096) * 360) % 360;
@@ -148,13 +148,13 @@ public class SwerveModule extends SubsystemBase
      * Bring module to exact given velocity
      * @param Velocity - Speed for Module
      */
-    public void directToVelocity(Double Velocity) {Driving_Motor.set(ControlMode.Velocity,Velocity);}
+    public void directToVelocity(double Velocity) {Driving_Motor.set(ControlMode.Velocity,Velocity);}
 
     /**
      * Bring module to exact given angle
      * @param Angle - Angle for Module
      */
-    public void directToAngle(Double Angle) {Azimuth_Motor.set(ControlMode.Position,Angle);}
+    public void directToAngle(double Angle) {Azimuth_Motor.set(ControlMode.Position,Angle);}
 
     /** Finds the closest equivalent position to the target 
      * @param Target -Tthe target direction of the module (deg)
@@ -214,6 +214,5 @@ public class SwerveModule extends SubsystemBase
      * @return the class's instance count
      */
     public Integer getModuleCount() {return Module_Count;}
-
 
 }
