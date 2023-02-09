@@ -1,5 +1,5 @@
 //Root Package
-package frc;
+package frc.robot;
 
 //Libraries
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
@@ -44,5 +44,34 @@ public final class Constants
         
         /** module azimuths KF value */
         public final static Double AZIMUTH_KF = 0.0;
+    }
+    public static class DRIVETRAIN 
+    {
+        /** Modular Instancization Boolean */
+        public static final Boolean AUTOMATIC_INSTANCIZATION = false;
+
+        /** robot number of face */
+        public static Integer FACE_COUNT = 4;
+
+        /** robot front(rotational) face */
+        public static Integer DEFAULT_ROTATIONAL_FACE = 0;
+
+        /** robot number of swerve modules per each face */
+        public static final Integer MODULES_PER_FACE = 2;  
+
+        /** Main Gyroscope Index Value */
+        public static final Integer GYRO_INDEX = 4;  
+
+        /** Azimuth Motor Indexes */
+        public static final Integer[] AZIMUTH_MOTORS_INDEX_VALUES = {21,22,23,24};
+
+        /** Drive Motor Indexes */
+        public static final Integer[] DRIVE_MOTORS_INDEX_VALUES = {11,12,13,14};
+
+        /** CanCODER Indexex */
+        public static final Integer[] CANCODER_INDEX_VALUES = {5,6,7,8};
+
+        /** CanCODER Offset Values */
+        public static final Double[] CANCODER_OFFSET_VALUES = {-313.682,-166.553,-246.006,-204.258};
     }
 }

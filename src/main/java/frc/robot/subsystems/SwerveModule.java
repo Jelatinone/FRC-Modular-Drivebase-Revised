@@ -10,8 +10,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.MODULE;
+
 import java.util.Objects;
-import frc.Constants.MODULE;
 
 /**
  * Swerve drive module class
@@ -41,7 +42,7 @@ public class SwerveModule extends SubsystemBase
      * @param CANCoder_Index - Index of the module's cancoder
      * @param CANCoder_Offset - Offset of the module's cancoder
      */
-    public SwerveModule(Integer Driving_Motor_Index, Integer Azimuth_Motor_Index, Integer CANCoder_Index, Double CANCoder_Offset) 
+    public SwerveModule(int Driving_Motor_Index, int Azimuth_Motor_Index, int CANCoder_Index, double CANCoder_Offset) 
     {
         //Hardware instancization 
         Driving_Motor = new WPI_TalonFX(Driving_Motor_Index);
