@@ -105,11 +105,11 @@ public class SwerveModule extends SubsystemBase
     public void toVelocity(double Velocity) 
     {
         //Update module azimuth data
-        Module_Real_Velocity = 2.0*(((Driving_Motor.getSelectedSensorVelocity() / 4096) * 10) / MODULE.DRIVE_GEAR_RATIO) * Math.PI * MODULE.WHEEL_DIAMETER;
+        Module_Real_Velocity = 2.0*(((Driving_Motor.getSelectedSensorVelocity() / 4096) * 10) / MODULE.DRIVE_GEAR_RATIO) * Math.PI * MODULE.WHEEL_DIAMETER_METERS;
         Module_Target_Velocity = Velocity;
 
         //Update motor
-        Driving_Motor.set(ControlMode.Velocity, (Module_Real_Velocity*MODULE.DRIVE_GEAR_RATIO/(Math.PI * MODULE.WHEEL_DIAMETER)*4096)/10);
+        Driving_Motor.set(ControlMode.Velocity, (Module_Real_Velocity*MODULE.DRIVE_GEAR_RATIO/(Math.PI * MODULE.WHEEL_DIAMETER_METERS)*4096)/10);
     }
 
     /**
@@ -136,11 +136,11 @@ public class SwerveModule extends SubsystemBase
         //Update module data
         Module_Real_Rotation = ((Azimuth_Motor.getSelectedSensorPosition() / 4096) * 360) % 360;
         Module_Target_Rotation = optimizeAzimuthRotation(Angle, Module_Real_Rotation);
-        Module_Real_Velocity = 2.0*(((Driving_Motor.getSelectedSensorVelocity() / 4096) * 10) / MODULE.DRIVE_GEAR_RATIO) * Math.PI * MODULE.WHEEL_DIAMETER;
+        Module_Real_Velocity = 2.0*(((Driving_Motor.getSelectedSensorVelocity() / 4096) * 10) / MODULE.DRIVE_GEAR_RATIO) * Math.PI * MODULE.WHEEL_DIAMETER_METERS;
         Module_Target_Velocity = Velocity;
 
         //Update motors
-        Driving_Motor.set(ControlMode.Velocity, (Module_Real_Velocity*MODULE.DRIVE_GEAR_RATIO/(Math.PI * MODULE.WHEEL_DIAMETER)*4096)/10);
+        Driving_Motor.set(ControlMode.Velocity, (Module_Real_Velocity*MODULE.DRIVE_GEAR_RATIO/(Math.PI * MODULE.WHEEL_DIAMETER_METERS)*4096)/10);
         Azimuth_Motor.set(ControlMode.Position, ((Module_Target_Rotation + (Module_Real_Rotation - (Module_Real_Rotation % 360))) / 360) * 4096);
     }
 

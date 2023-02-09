@@ -1,6 +1,7 @@
 //Root Package
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 //Libraries
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenixpro.hardware.Pigeon2;
@@ -53,23 +54,30 @@ public class SwerveBase extends SubsystemBase
    */
     public void SwerveDrive(double JoystickL_X, double JoystickL_Y, double JoystickR_X)
     {
-        //Wheel Locking false(normal swerve drive)
-        if(!Wheel_Locking)
+        //X-locking
+        if(Objects.equals(JoystickL_X,0.0) && Objects.equals(JoystickL_X,0.0) && Objects.equals(JoystickL_X,0.0))
+            for(int i = 0; i < Modules.length; i++) 
+                Modules[i].toAngle(new Rotation2d((Math.atan2(Math.sin(Math.atan2(DRIVETRAIN.ROBOT_WIDTH_METERS, DRIVETRAIN.ROBOT_LENGTH_METERS)),Math.cos(Math.atan2(DRIVETRAIN.ROBOT_WIDTH_METERS, DRIVETRAIN.ROBOT_WIDTH_METERS)))) % 360).getDegrees());
+        //Normal Drive
+        else
         {
-            ModuleGroups[Rotational_Face][(JoystickL_X > 0)? (1): ((JoystickL_X < 0)? (0): (1))].toMagnitude(Math.pow(JoystickL_Y,2),(Math.atan((180/(JoystickR_X * 100)))));
-            for(int i = 0; i < ModuleGroups.length; i++)
-                for(int j = 0; j < ModuleGroups[i].length; j++)
-                    if(!Objects.equals(ModuleGroups[i][j],ModuleGroups[Rotational_Face][(JoystickL_X > 0)? (1): (0)]))
-                        ModuleGroups[i][j].toMagnitude(Math.sqrt((JoystickL_X * JoystickL_X) + (JoystickL_Y + JoystickL_Y)), Math.atan2(JoystickL_X, JoystickL_Y));     
+            //Wheel Locking false(normal swerve drive)
+            if(!Wheel_Locking)
+            {
+                ModuleGroups[Rotational_Face][(JoystickL_X > 0)? (1): ((JoystickL_X < 0)? (0): (1))].toMagnitude(Math.pow(JoystickL_Y,2),(Math.atan((180/(JoystickR_X * 100)))));
+                for(int i = 0; i < ModuleGroups.length; i++)
+                    for(int j = 0; j < ModuleGroups[i].length; j++)
+                        if(!Objects.equals(ModuleGroups[i][j],ModuleGroups[Rotational_Face][(JoystickL_X > 0)? (1): (0)]))
+                            ModuleGroups[i][j].toMagnitude(Math.sqrt((JoystickL_X * JoystickL_X) + (JoystickL_Y + JoystickL_Y)), Math.atan2(JoystickL_X, JoystickL_Y));     
+            }
+            //Wheel locking true(direct swerve drive)
+            else        
+            {
+                for(int i = 0; i < ModuleGroups.length; i++)
+                    for(int j = 0; j < ModuleGroups[i].length; j++)
+                        ModuleGroups[i][j].toMagnitude(Math.sqrt((JoystickL_X * JoystickL_X) + (JoystickL_Y + JoystickL_Y)), Math.atan2(JoystickL_X, JoystickL_Y));        
+            }
         }
-        //Wheel locking true(direct swerve drive)
-        else        
-        {
-            for(int i = 0; i < ModuleGroups.length; i++)
-                for(int j = 0; j < ModuleGroups[i].length; j++)
-                    ModuleGroups[i][j].toMagnitude(Math.sqrt((JoystickL_X * JoystickL_X) + (JoystickL_Y + JoystickL_Y)), Math.atan2(JoystickL_X, JoystickL_Y));        
-        }
-
     }
 
     /**

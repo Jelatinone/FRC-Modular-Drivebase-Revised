@@ -26,9 +26,9 @@ public class DriveCommand extends CommandBase
     public DriveCommand(CommandXboxController M_Controller, SwerveBase Parent)
     {
         //Joystick inputs
-        if(Math.abs(M_Controller.getRawAxis(0)) > DRIVECOMMAND.LEFT_X_JOYSTICK_DEADZONE) {JoystickL_X = M_Controller.getRawAxis(0);}else{JoystickL_X = 0.0;}
-        if(Math.abs(M_Controller.getRawAxis(1)) > DRIVECOMMAND.LEFT_Y_JOYSTICK_DEADZONE) {JoystickL_Y = M_Controller.getRawAxis(1);}else{JoystickL_Y = 0.0;}
-        if(Math.abs(M_Controller.getRawAxis(4)) > DRIVECOMMAND.RIGHT_X_JOYSTICK_DEADZONE) {JoystickR_X = M_Controller.getRawAxis(4);}else{JoystickR_X = 0.0;}
+        if(Math.abs(M_Controller.getRawAxis(DRIVECOMMAND.LEFT_X_AXIS_INDEX)) > DRIVECOMMAND.LEFT_X_JOYSTICK_DEADZONE) {JoystickL_X = M_Controller.getRawAxis(DRIVECOMMAND.LEFT_X_AXIS_INDEX);}else{JoystickL_X = 0.0;}
+        if(Math.abs(M_Controller.getRawAxis(DRIVECOMMAND.LEFT_Y_AXIS_INDEX)) > DRIVECOMMAND.LEFT_Y_JOYSTICK_DEADZONE) {JoystickL_Y = M_Controller.getRawAxis(DRIVECOMMAND.LEFT_Y_AXIS_INDEX);}else{JoystickL_Y = 0.0;}
+        if(Math.abs(M_Controller.getRawAxis(DRIVECOMMAND.RIGHT_X_AXIS_INDEX)) > DRIVECOMMAND.RIGHT_X_JOYSTICK_DEADZONE) {JoystickR_X = M_Controller.getRawAxis(DRIVECOMMAND.RIGHT_X_AXIS_INDEX);}else{JoystickR_X = 0.0;}
         //Square joystick inputs
         JoystickL_X = JoystickL_X * JoystickL_X * (Math.abs(JoystickL_X)/((JoystickL_X == 0)? (1) : (JoystickL_X)));
         JoystickL_Y = JoystickL_Y * JoystickL_Y * (Math.abs(JoystickL_Y)/((JoystickL_Y == 0)? (1) : (JoystickL_Y)));
