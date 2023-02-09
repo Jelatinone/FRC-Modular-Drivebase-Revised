@@ -50,6 +50,7 @@ public class SwerveModule extends SubsystemBase
         Azimuth_Motor = new WPI_TalonFX(Azimuth_Motor_Index);
         Module_Encoder = new CANCoder(CANCoder_Index);
 
+
         //Module data
         Module_Number = Module_Count;
         Module_Target_Rotation = 0.0;
@@ -67,6 +68,17 @@ public class SwerveModule extends SubsystemBase
         Module_Encoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
         Module_Encoder.setPositionToAbsolute();
 
+        //Drive motor configurations
+        Driving_Motor.configFactoryDefault();
+        Driving_Motor.setInverted(TalonFXInvertType.CounterClockwise);
+        Driving_Motor.setNeutralMode(NeutralMode.Brake);
+        Driving_Motor.configStatorCurrentLimit(MODULE.DRIVE_CURRENT_LIMIT);
+        Driving_Motor.config_kP(0, MODULE.AZIMUTH_KP);
+        Driving_Motor.config_kI(0, MODULE.AZIMUTH_KI);
+        Driving_Motor.config_kD(0, MODULE.AZIMUTH_KD);
+        Driving_Motor.config_kF(0, MODULE.AZIMUTH_KF);
+        Driving_Motor.configMotionSCurveStrength(MODULE.DRIVE_S_CURVE_STRENGTH, 200);
+
         //Azimuth motor configurations
         Azimuth_Motor.configFactoryDefault();
         Azimuth_Motor.setInverted(TalonFXInvertType.CounterClockwise);
@@ -79,16 +91,8 @@ public class SwerveModule extends SubsystemBase
         Azimuth_Motor.config_kI(0, MODULE.AZIMUTH_KI);
         Azimuth_Motor.config_kD(0, MODULE.AZIMUTH_KD);
         Azimuth_Motor.config_kF(0, MODULE.AZIMUTH_KF);
+        Driving_Motor.configMotionSCurveStrength(MODULE.AZIMUTH_S_CURVE_STRENGTH, 200);
 
-        //Drive motor configurations
-        Driving_Motor.configFactoryDefault();
-        Driving_Motor.setInverted(TalonFXInvertType.CounterClockwise);
-        Driving_Motor.setNeutralMode(NeutralMode.Brake);
-        Driving_Motor.configStatorCurrentLimit(MODULE.DRIVE_CURRENT_LIMIT);
-        Driving_Motor.config_kP(0, MODULE.AZIMUTH_KP);
-        Driving_Motor.config_kI(0, MODULE.AZIMUTH_KI);
-        Driving_Motor.config_kD(0, MODULE.AZIMUTH_KD);
-        Driving_Motor.config_kF(0, MODULE.AZIMUTH_KF);
     }
 
     /**
@@ -157,8 +161,8 @@ public class SwerveModule extends SubsystemBase
      */
     private double optimizeAzimuthRotation(double Target, double Real) 
     {
-        if (Math.min(Math.min(Math.abs(Target - Real), Math.abs((Target + 360) - Real)), Math.abs((Target - 360) - Real)) == Math.abs((Target + 360) - Real)) Target += 360;
-        if (Math.min(Math.min(Math.abs(Target - Real), Math.abs((Target + 360) - Real)), Math.abs((Target - 360) - Real)) == Math.abs((Target - 360) - Real)) Target -= 360;
+        if(Math.min(Math.min(Math.abs(Target - Real), Math.abs((Target + 360) - Real)), Math.abs((Target - 360) - Real)) == Math.abs((Target + 360) - Real)) Target += 360;
+        if(Math.min(Math.min(Math.abs(Target - Real), Math.abs((Target + 360) - Real)), Math.abs((Target - 360) - Real)) == Math.abs((Target - 360) - Real)) Target -= 360;
         return Target;
     }
 

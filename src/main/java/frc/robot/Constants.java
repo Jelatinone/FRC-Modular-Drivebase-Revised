@@ -41,7 +41,10 @@ public final class Constants
         
         /** module drivers KF value */
         public final static Double DRIVE_KF = 0.028998;
-        
+
+        /** module drivers S Curve Strength value */
+        public final static Integer DRIVE_S_CURVE_STRENGTH = 1;
+
         /** module azimuths KP value */
         public final static Double AZIMUTH_KP = 0.2;
         
@@ -53,6 +56,9 @@ public final class Constants
         
         /** module azimuths KF value */
         public final static Double AZIMUTH_KF = 0.0;
+
+        /** module drivers S Curve Strength value */
+        public final static Integer AZIMUTH_S_CURVE_STRENGTH = 1;
     }
     public static final class DRIVETRAIN 
     {
