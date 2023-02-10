@@ -1,9 +1,9 @@
 //Root Package
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 //Libraries
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.geometry.Rotation2d;
 import com.ctre.phoenixpro.hardware.Pigeon2;
 import frc.robot.Constants.DRIVETRAIN;
 import java.util.Objects;
@@ -17,8 +17,9 @@ public class SwerveBase extends SubsystemBase
     private static Pigeon2 Primary_Gyroscope;
 
     //Drivebase data
+    private static double[] Resultant_Vector;
     private static Integer Rotational_Face = DRIVETRAIN.DEFAULT_ROTATIONAL_FACE;
-    private Boolean Wheel_Locking;
+    private static Boolean Wheel_Locking;
 
     /** Swerve drivetrain constructor */
     public SwerveBase()
@@ -43,6 +44,7 @@ public class SwerveBase extends SubsystemBase
             for(int i = 0; i < ModuleGroups.length; i++) 
                 {for(int j = 0; j < ModuleGroups[i].length; j++) {ModuleGroups[i][j] = Modules[(i+j > ModuleGroups[i].length)? (0): (i+j)];}}
         }
+        Resultant_Vector = new double[] {0.0,0.0};
     }
 
     /**
@@ -51,7 +53,16 @@ public class SwerveBase extends SubsystemBase
     @Override
     public void periodic() 
     {
-        //TODO: Telemetry Updates
+        //Calculate resultant vector of motors
+        double Total_Component_X = 0.0;
+        double Total_Component_Y = 0.0;
+        for(int i = 0 ; i < (DRIVETRAIN.FACE_COUNT); i++)
+        {
+            Total_Component_Y += (Math.asin(Modules[i].getRealRotation()) * Modules[i].getRealVelocity());
+            Total_Component_X += (Math.acos(Modules[i].getRealRotation()) * Modules[i].getRealVelocity());
+        }
+        Resultant_Vector[0] = Math.atan(Total_Component_Y/Total_Component_X);
+        Resultant_Vector[1] = Math.sin(Resultant_Vector[0]) * Total_Component_Y;
     }
 
   /** 
